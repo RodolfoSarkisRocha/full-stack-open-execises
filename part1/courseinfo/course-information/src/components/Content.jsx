@@ -1,13 +1,13 @@
 import React from 'react'
 
+const Part = ({ part, exercises }) => (
+  <p>
+    {part} {exercises}
+  </p>
+)
+
 const Content = (props) => {
   const { parts } = props
-
-  const Part = ({ part, exercises }) => (
-    <p>
-      {part} {exercises}
-    </p>
-  )
 
   return (
     <>
