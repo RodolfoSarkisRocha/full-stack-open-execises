@@ -1,6 +1,11 @@
 import React from 'react'
 
-const Statistic = ({text, value}) => <div>{text} {value}</div>
+const Statistic = ({ text, value }) => (
+  <tr>
+    <td>{text}</td>
+    <td> {value}</td>
+  </tr>
+)
 
 const Statistics = ({
   reviews: {
@@ -12,7 +17,7 @@ const Statistics = ({
   }
 }) => {
   const getStatistics = () => {
-    
+
     if (
       good === 0 &&
       neutral === 0 &&
@@ -20,13 +25,15 @@ const Statistics = ({
     ) return <div>No feedback given</div>
 
     return (
-      <>
-        <Statistic text={'Good'} value={good} />
-        <Statistic text={'Neutral'} value={neutral} />
-        <Statistic text={'Bad'} value={bad} />
-        <Statistic text={'Average'} value={average} />
-        <Statistic text={'Positive'} value={positive} />
-      </>
+      <table>
+        <tbody>
+          <Statistic text={'Good'} value={good} />
+          <Statistic text={'Neutral'} value={neutral} />
+          <Statistic text={'Bad'} value={bad} />
+          <Statistic text={'Average'} value={average} />
+          <Statistic text={'Positive'} value={positive} />
+        </tbody>
+      </table>
     )
   }
   return (
