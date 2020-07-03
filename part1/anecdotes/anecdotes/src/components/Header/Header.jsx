@@ -1,7 +1,7 @@
 import React from 'react'
 
-const Header = () => (
-  <h1>Generate a random anecdote!</h1>
+const Header = ({text}) => (
+<h1>{text}</h1>
 )
 
 export default Header

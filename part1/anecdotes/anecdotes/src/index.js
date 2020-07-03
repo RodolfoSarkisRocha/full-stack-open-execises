@@ -3,10 +3,12 @@ import ReactDOM from 'react-dom'
 import Header from './components/Header/Header'
 import Button from './components/Button/Button'
 import Anecdote from './components/Anecdote/Anecdote'
+import MostVotes from './components/MostVotes/MostVotes'
 
 const App = ({ anecdotes }) => {
   const [selected, setSelected] = useState(0)
   const [votes, setVotes] = useState(anecdotes.map(() => 0))
+  const mainHeader = 'Generate a random anecdote!'
 
   const voteForAnecdote = () => {
     const votesCopy = [...votes]
@@ -26,9 +28,19 @@ const App = ({ anecdotes }) => {
     setSelected(randomNumber)
   }
 
+  const getMostVoted = () => {
+    const mostVotes = Math.max(...votes);
+    const anecdoteIndex = votes.indexOf(mostVotes)
+    const anecdote = anecdotes[anecdoteIndex]
+    return {
+      anecdote,
+      votes: mostVotes
+    }
+  }
+
   return (
     <div>
-      <Header />
+      <Header text={mainHeader} />
       <Anecdote
         anecdote={anecdotes[selected]}
         votes={votes[selected] ?? 0}
@@ -41,6 +53,9 @@ const App = ({ anecdotes }) => {
       <Button
         handleClick={generateRandomAnecdote}
         text='Generate'
+      />
+      <MostVotes
+        topAnecdote={getMostVoted()}
       />
     </div>
   )
