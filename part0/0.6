@@ -1,0 +1,22 @@
+user->browser: Input text
+user->browser: Clicks submit button
+
+note over browser:
+Browser get the value present on the
+input tag
+The click onto the save button sending a JSON object to the server
+end note
+
+browser->server: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note_spa
+server-->browser: response message
+
+note over browser:
+Browser submits the form via http request with a JSON
+Browser pushes the object into the array displaying it in the page
+end note
+
+note over server:
+Server receives JSON data
+Server stores the data
+Server responds with a message 
+end note

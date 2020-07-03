@@ -1,0 +1,11 @@
+browser->server: HTTP GET https://fullstack-exampleapp.herokuapp.com/data.json
+server-->browser: [{ content: "HTML is easy", date: "2019-05-23" }, ...]
+
+note over browser:
+Browser executes JS code
+Browser sends a request to get JSON data from server
+end note
+
+note over server:
+server sends back JSON data to the browser
+end note
