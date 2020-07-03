@@ -1,5 +1,7 @@
 import React from 'react'
 
+const Statistic = ({text, value}) => <div>{text} {value}</div>
+
 const Statistics = ({
   reviews: {
     good,
@@ -19,11 +21,11 @@ const Statistics = ({
 
     return (
       <>
-        <div>{`Good ${good}`}</div>
-        <div>{`Neutral ${neutral}`}</div>
-        <div>{`Bad ${bad}`}</div>
-        <div>{`Average ${average}`}</div>
-        <div>{`Positive ${positive}%`}</div>
+        <Statistic text={'Good'} value={good} />
+        <Statistic text={'Neutral'} value={neutral} />
+        <Statistic text={'Bad'} value={bad} />
+        <Statistic text={'Average'} value={average} />
+        <Statistic text={'Positive'} value={positive} />
       </>
     )
   }
