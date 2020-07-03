@@ -1,6 +1,14 @@
 import React from 'react'
 
-const Statistics = ({ reviews: { good, neutral, bad } }) => {
+const Statistics = ({
+  reviews: {
+    good,
+    neutral,
+    bad,
+    average,
+    positive 
+  }
+}) => {
 
   return (
     <>
@@ -8,6 +16,8 @@ const Statistics = ({ reviews: { good, neutral, bad } }) => {
       <div>{`Good ${good}`}</div>
       <div>{`Neutral ${neutral}`}</div>
       <div>{`Bad ${bad}`}</div>
+      <div>{`Average ${average}`}</div>
+      <div>{`Positive ${positive}%`}</div>
     </>
   )
 }
