@@ -12,7 +12,7 @@ const Person = ({ person }) => (
   </div>
 )
 
-const NameList = ({ persons }) => (
+const NameList = ({ persons = [] }) => (
   <>
     <Header text='Numbers' />
     {persons.map(currentPerson => (

@@ -1,17 +1,29 @@
 import React, { useState } from 'react'
 import NameList from './components/NameList'
 import Header from './components/Header'
+import PersonForm from './components/PersonForm'
+import Filter from './components/Filter'
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '99999-9999' }
+    { name: 'Arto Hellas', number: '99999-9999' },
+    { name: 'Ada Lovelace', number: '39-44-5323523' },
+    { name: 'Dan Abramov', number: '12-43-234345' },
+    { name: 'Mary Poppendieck', number: '39-23-6423122' }
   ])
-  const [newName, setNewName] = useState('')
-  const [newNumber, setNewNumber] = useState('')
+  const [newContact, setNewContact] = useState({
+    name: '',
+    number: ''
+  })
+  const [filter, setFilter] = useState('')
 
-  const handleInputChange = (stateFunc) => (event) => {
+  const handleInputChange = (event) => {
     const value = event.target.value
-    stateFunc(value)
+    const name = event.target.name
+    setNewContact({
+      ...newContact,
+      [name]: value
+    })
   }
 
   const validateName = (name) => {
@@ -25,41 +37,52 @@ const App = () => {
     return true
   }
 
-  const addName = (event) => {
+  const addContact = (event) => {
     event.preventDefault()
-    if (validateName(newName)) {
+    const { name, number } = newContact
+    if (validateName(name)) {
       const newPerson = {
-        name: newName,
-        number: newNumber
+        name: name,
+        number: number
       }
       const newList = persons.concat(newPerson)
       setPersons(newList)
     }
   }
 
+  const handleFilter = (event) => {
+    const value = event.target.value
+    const formattedValue = value.trim()
+    setFilter(formattedValue)
+  }
+
+  const getPersons = () => {
+    if (filter) {
+      const filteredPersons = persons.filter(currentPerson => {
+        const personName = currentPerson.name.toLowerCase()
+        const lowerCaseFilter = filter.toLowerCase()
+        return personName.includes(lowerCaseFilter)
+      })
+      return (filteredPersons)
+    }
+    return persons
+  }
+
   return (
     <div>
       <Header text='Phonebook' />
-      <form onSubmit={addName}>
-        <div>
-          <label>Name: </label>
-          <input
-            value={newName}
-            onChange={handleInputChange(setNewName)}
-          />
-        </div>
-        <div>
-          <label>Number: </label>
-          <input
-            value={newNumber}
-            onChange={handleInputChange(setNewNumber)}
-          />
-        </div>
-        <div>
-          <button type="submit">Add</button>
-        </div>
-      </form>
-      <NameList persons={persons} />
+      <Header text='Filters' />
+      <Filter
+        filterValue={filter}
+        filterName='Name'
+        handleFilter={handleFilter}
+      />
+      <PersonForm
+        onSubmit={addContact}
+        handleInputChange={handleInputChange}
+        contactFields={newContact}
+      />
+      <NameList persons={getPersons()} />
     </div>
   )
 }
