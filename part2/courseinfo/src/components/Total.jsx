@@ -11,8 +11,8 @@ const Total = ({parts}) => {
   }
 
   return (
-    <p>
-      {`Number of exercises ${exercisesTotal()}`}
+    <p style={{fontWeight: 'bold'}}>
+      {`Total of ${exercisesTotal()} exercises`}
     </p>
   )
 }
