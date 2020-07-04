@@ -4,13 +4,14 @@ import Header from './components/Header'
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
+    { name: 'Arto Hellas', number: '99999-9999' }
   ])
   const [newName, setNewName] = useState('')
+  const [newNumber, setNewNumber] = useState('')
 
-  const handleNameChange = (event) => {
-    const value = event.target.value;
-    setNewName(value)
+  const handleInputChange = (stateFunc) => (event) => {
+    const value = event.target.value
+    stateFunc(value)
   }
 
   const validateName = (name) => {
@@ -28,7 +29,8 @@ const App = () => {
     event.preventDefault()
     if (validateName(newName)) {
       const newPerson = {
-        name: newName
+        name: newName,
+        number: newNumber
       }
       const newList = persons.concat(newPerson)
       setPersons(newList)
@@ -37,13 +39,20 @@ const App = () => {
 
   return (
     <div>
-      <Header text='Phonebook'/>
+      <Header text='Phonebook' />
       <form onSubmit={addName}>
         <div>
-          Name:
+          <label>Name: </label>
           <input
             value={newName}
-            onChange={handleNameChange}
+            onChange={handleInputChange(setNewName)}
+          />
+        </div>
+        <div>
+          <label>Number: </label>
+          <input
+            value={newNumber}
+            onChange={handleInputChange(setNewNumber)}
           />
         </div>
         <div>

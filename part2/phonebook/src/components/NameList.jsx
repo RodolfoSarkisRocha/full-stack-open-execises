@@ -2,8 +2,13 @@ import React from 'react'
 import Header from './Header'
 
 const Person = ({ person }) => (
-  <div key={person.name}>
-    {person.name}
+  <div style={{marginBottom: 10}} key={person.name}>
+    <div>
+      {`Name: ${person.name}`}
+    </div>
+    <div>
+      {`Number: ${person.number}`}
+    </div>
   </div>
 )
 
