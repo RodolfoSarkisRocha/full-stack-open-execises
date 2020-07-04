@@ -1,17 +1,20 @@
 import React from 'react'
 
-const Total = ({parts}) => {
+const Total = ({ parts }) => {
 
   const exercisesTotal = () => {
-    let sum = 0
-    parts.forEach(currentPart => {
-      sum += currentPart.exercises
+    const sum = parts.reduce((acc, currentValue) => {
+      const exSum = acc.exercises + currentValue.exercises
+      return {
+        ...acc,
+        exercises: exSum
+      }
     })
-    return sum
+    return sum.exercises
   }
 
   return (
-    <p style={{fontWeight: 'bold'}}>
+    <p style={{ fontWeight: 'bold' }}>
       {`Total of ${exercisesTotal()} exercises`}
     </p>
   )
