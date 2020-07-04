@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import NameList from './components/NameList'
+import Header from './components/Header'
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -12,18 +13,31 @@ const App = () => {
     setNewName(value)
   }
 
+  const validateName = (name) => {
+    const nameValidation = persons.some(currentPerson =>
+      currentPerson.name === name
+    )
+    if (nameValidation) {
+      alert(`${name} is already added to phonebook`)
+      return false
+    }
+    return true
+  }
+
   const addName = (event) => {
     event.preventDefault()
-    const newPerson = {
-      name: newName
+    if (validateName(newName)) {
+      const newPerson = {
+        name: newName
+      }
+      const newList = persons.concat(newPerson)
+      setPersons(newList)
     }
-    const newList = persons.concat(newPerson)
-    setPersons(newList)
   }
 
   return (
     <div>
-      <h2>Phonebook</h2>
+      <Header text='Phonebook'/>
       <form onSubmit={addName}>
         <div>
           Name:
@@ -36,7 +50,6 @@ const App = () => {
           <button type="submit">Add</button>
         </div>
       </form>
-      <h2>Numbers</h2>
       <NameList persons={persons} />
     </div>
   )
