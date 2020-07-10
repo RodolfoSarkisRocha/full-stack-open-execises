@@ -72,6 +72,7 @@ function App() {
   const handleFilterChange = (event) => {
     const value = event.target.value;
     setFilter(value);
+    setDetailsList([])
   };
 
   useEffect(filterCountries, [filter]);
