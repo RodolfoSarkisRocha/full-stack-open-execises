@@ -2,7 +2,7 @@ import React from 'react'
 import Header from './Header'
 
 const Person = ({ person, onDelete }) => (
-  <div style={{marginBottom: 10}} key={person.name}>
+  <div style={{marginBottom: 10}} key={person.id}>
     <div>
       {`Name: ${person.name}`}
     </div>
@@ -18,7 +18,7 @@ const NameList = ({ persons = [], onDelete }) => (
   <>
     <Header text='Numbers' />
     {persons.map(currentPerson => (
-      <Person person={currentPerson} onDelete={onDelete}/>
+      <Person key={currentPerson.id} person={currentPerson} onDelete={onDelete}/>
     ))}
   </>
 )

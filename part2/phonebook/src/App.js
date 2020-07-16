@@ -4,6 +4,13 @@ import Header from "./components/Header";
 import PersonForm from "./components/PersonForm";
 import Filter from "./components/Filter";
 import { getAll, create, deletePerson, edit } from "./services/phonebook";
+import Notification from "./components/Notification";
+
+const mainContainer = {
+  padding: 10,
+  boxSizing: "border-box",
+  width: "100%",
+};
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -12,11 +19,14 @@ const App = () => {
     number: "",
   });
   const [filter, setFilter] = useState("");
+  const [feedback, setFeedback] = useState({ message: null, type: null });
 
   useEffect(() => {
     getAll()
       .then((response) => setPersons(response))
-      .catch((err) => "It was impossible to retrieve notes");
+      .catch((err) =>
+        handleNotification("It was impossible to retrieve notes", "error")
+      );
   }, []);
 
   const handleInputChange = (event) => {
@@ -45,6 +55,13 @@ const App = () => {
     );
   };
 
+  const handleNotification = (message, type) => {
+    setFeedback({ message, type });
+    setTimeout(() => {
+      setFeedback({ message: null, type: null });
+    }, 5000);
+  };
+
   const addContact = (event) => {
     event.preventDefault();
     const { name, number } = newContact;
@@ -68,18 +85,29 @@ const App = () => {
                 (currentPerson) => currentPerson.id === response.id
               );
               newPersonsList.splice(targetIndex, 1, response);
-              setPersons(newPersonsList).then(() =>
-                setNewContact({ name: "", number: "" })
-              );
+              setPersons(newPersonsList);
+              setNewContact({ name: "", number: "" });
+              handleNotification(`Successfully updated ${name}!`, "success");
             })
-            .catch(() => alert(`It was impossible to edit ${name}`));
+            .catch(() =>
+              handleNotification(`It was impossible to edit ${name}`, "error")
+            );
         }
-      } else
+      } else {
         create(newPerson)
-          .then((response) => setPersons(persons.concat(response)))
-          .then(() => setNewContact({ name: "", number: "" }))
-          .catch(() => alert("It was impossible to create note"));
-    } else alert("Both fields are required!");
+          .then((response) => {
+            setPersons(persons.concat(response));
+            setNewContact({ name: "", number: "" });
+            handleNotification(
+              `Sucessfully added ${name} to the list!`,
+              "success"
+            );
+          })
+          .catch(() =>
+            handleNotification("It was impossible to create note", "error")
+          );
+      }
+    } else handleNotification("Both fields are required!", "error");
   };
 
   const removePerson = ({ id, ...person }) => {
@@ -88,12 +116,16 @@ const App = () => {
     );
     if (sureToDelete)
       deletePerson(id)
-        .then(() =>
-          setPersons(persons.filter((currentPerson) => currentPerson.id !== id))
-        )
+        .then(() => {
+          setPersons(
+            persons.filter((currentPerson) => currentPerson.id !== id)
+          );
+          handleNotification(`Succesfully deleted ${person.name}`);
+        })
         .catch(() => {
-          alert(
-            `It was impossible to delete the person with name ${person.name}`
+          handleNotification(
+            `It was impossible to delete the person with name ${person.name}`,
+            "error"
           );
         });
   };
@@ -117,8 +149,9 @@ const App = () => {
   };
 
   return (
-    <div>
+    <div style={mainContainer}>
       <Header text="Phonebook" />
+      <Notification message={feedback.message} type={feedback.type} />
       <Header text="Filters" />
       <Filter
         filterValue={filter}
